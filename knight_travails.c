@@ -1,3 +1,4 @@
+//Program to find the shortest sequence of paths taken by a knight from source to destination vertex
 #include<stdio.h>
 #include<ctype.h>
 #include<string.h>
@@ -10,6 +11,7 @@ typedef struct Node
     int distance;
 }Node;
 
+//valid movement of the knight
 int row[] = {-2, -1, 1, 2, -2, -1, 1, 2}; 
 int col[] = {-1, -2, -2, -1, 1, 2, 2, 1}; 
 
@@ -19,7 +21,8 @@ int front = -1;
 int rear = -1;
 int top = -1;
 
-int mapCoordsToIndex(int x, int y){
+int mapCoordsToIndex(int x, int y) //hash code conversion
+{
     return y*8 + x;
 }
 
@@ -66,11 +69,11 @@ void pop()
     top--;
 }
 
-int getX(int index)
+int getX(int index) //extracts and returns the X coordinate
 {
     return (index % 8) + 1;
 }
-int getY(int index)
+int getY(int index) //extracts and returns the Y coordinate
 {    
     return (index / 8) + 1;
 }
@@ -82,7 +85,8 @@ void bfs(int sx, int sy, int dx, int dy)
     enqueue(sx, sy, 0); //adding starting position of knight to the queue with 0 distance travelled
     //visited starting position
     visit[sx][sy] = 1;
-    int map[64] = {0}; //using array of size 64 to simulate map, using the encoding i*8+j to store the respective pairs
+    int map[64] = {0}; 
+    //using array of size 64 to simulate map, using the encoding i*8+j to store the respective pairs
     //looping until queue is empty
     while(!qisempty())
     {   
@@ -94,11 +98,11 @@ void bfs(int sx, int sy, int dx, int dy)
             printf("Total moves needed to be taken : %d \n", t.distance);
             int stack[1000];
             push(mapCoordsToIndex(t.x-1, t.y-1),stack);            
-            if(t.distance != 0) //source and destination not the same
+            if(t.distance != 0) //when source and destination are not the same
             {                
-                for(int i = mapCoordsToIndex(t.x-1, t.y-1);  ; i = mapCoordsToIndex(t.x-1, t.y-1)) //confirm for edge case condition
+                for(int i = mapCoordsToIndex(t.x-1, t.y-1);  ; i = mapCoordsToIndex(t.x-1, t.y-1)) 
                 {
-                    if(!(getX(map[i]) == sx && getY(map[i]) == sy))
+                    if(!(getX(map[i]) == sx && getY(map[i]) == sy)) //if not equal to source , then continue
                     {                        
                         t.x = getX(map[i]);
                         t.y = getY(map[i]);                        
@@ -136,28 +140,14 @@ int main()
     int dx,dy;
     //Source coordinates
     int sx,sy;
-    /*int ch;
-    do
-    {
-        printf("PRESS 1: TO RUN THE CODE\n");
-        printf("PRESS 2: TO EXIT\n");
-        scanf("%d",&ch);
-        switch(ch)
-        {
-            case 1:*/ printf("Enter the Source Coordinates (x,y): \n");
-                    scanf("%d%d",&sx,&sy);
-                    printf("Enter the Destiation Coordinates (x,y): \n");
-                    scanf("%d%d",&dx,&dy);
-                    if(isValid(sx,sy) && isValid(dx,dy))
-                        bfs(sx,sy,dx,dy);
-                    else
-                        printf("Wrong input!\n");
-                    /*
-                    break;
-            case 2: exit(0);
-                    break;
-            default: printf("You entered the wrong choice \n");
-        }
-    }while(1);*/
+    printf("Enter the Source Coordinates (x,y), where x and y are numbers between 1 and 8: \n");
+    scanf("%d%d",&sx,&sy);
+    printf("Enter the Destiation Coordinates (x,y), where x and y are numbers between 1 and 8: \n");
+    scanf("%d%d",&dx,&dy);
+    if((isValid(sx,sy) && isValid(dx,dy)))
+        bfs(sx,sy,dx,dy);
+    else
+        printf("Wrong input!\n");
+
     return 0;
 }
