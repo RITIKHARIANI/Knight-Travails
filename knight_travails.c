@@ -100,7 +100,7 @@ void bfs(int sx, int sy, int dx, int dy)
             push(mapCoordsToIndex(t.x-1, t.y-1),stack);            
             if(t.distance != 0) //when source and destination are not the same
             {                
-                for(int i = mapCoordsToIndex(t.x-1, t.y-1);  ; i = mapCoordsToIndex(t.x-1, t.y-1)) 
+                for(int i = mapCoordsToIndex(t.x-1, t.y-1);  ; i = mapCoordsToIndex(t.x-1, t.y-1)) //moving to the parent
                 {
                     if(!(getX(map[i]) == sx && getY(map[i]) == sy)) //if not equal to source , then continue
                     {                        
